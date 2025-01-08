@@ -3,7 +3,7 @@
     <div v-if="error">{{ error }}</div>
     <div v-if="documents" class="messages">
       <div v-for="doc in documents" :key="doc.id" class="single">
-        <span class="created-at">{{ doc.createdAt.toDate() }}</span>
+        <span class="created-at">{{ timeago.format(doc.createdAt.toDate()) }}</span>
         <span class="name">{{ doc.name }}</span>
         <span class="message">{{ doc.message }}</span>
       </div>
@@ -13,12 +13,14 @@
 
 <script>
 import getCollection from '../composables/getCollection'
+import { format } from 'timeago.js'
 
 export default {
   setup() {
     const { error, documents } = getCollection('messages')
+    const timeago = { format }
 
-    return { error, documents }
+    return { error, documents, timeago }
   }
 }
 </script>
